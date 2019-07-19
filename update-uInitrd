@@ -1,0 +1,9 @@
+if [ $1 = '' -o $1 = '-h' -o $1 = '--h' ] ; then
+	echo '[usage]'
+	echo 'update-uInitrd [linux version] [initramfs-output]'
+	echo '[example]'
+	echo 'update-uInitrd 5.2.1 /boot/initramfs-linux.img'
+else
+	mkinitcpio -k $1 -g $2
+	mkimage -A arm64 -O linux -T ramdisk -C gzip -n uInitrd -d $2 /boot/uInitrd > /dev/null
+fi
