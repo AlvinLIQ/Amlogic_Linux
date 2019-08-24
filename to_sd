@@ -1,0 +1,13 @@
+echo "copy zImage"
+cp arch/arm64/boot/Image /run/media/root/BOOT/zImage
+echo "copy dtb"
+if [ ! -d /run/media/root/BOOT/amlogic/ ]; then
+	mkdir /run/media/root/BOOT/amlogic
+fi
+cp arch/arm64/boot/dts/amlogic/*.dtb /run/media/root/BOOT/amlogic
+cp arch/arm64/boot/dts/amlogic/*vim.dtb /run/media/root/BOOT/dtb.img
+echo "copy modules"
+rm -r /run/media/root/ROOTFS/lib/modules/*
+make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules_install INSTALL_MOD_PATH=/run/media/root/ROOTFS
+sync
+echo "all done!"
